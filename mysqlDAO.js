@@ -18,6 +18,7 @@ var getEmployeesSQL = function () {
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM employee')
             .then((data) => {
+                console.log(data);
                 resolve(data);
             })
             .catch((error) => {
@@ -26,8 +27,20 @@ var getEmployeesSQL = function () {
     })
 }
 
+var getDepartments = function(){
+    return new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM dept')
+        .then((data) => {
+            resolve(data);
+        })
+        .catch((error) => {
+            reject(error);
+        })
+    })
+}
 
 
 
 
-module.exports = { getEmployeesSQL }
+
+module.exports = { getEmployeesSQL, getDepartments }
