@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('./mySqlDAO')
 const app = express();
 const PORT = 3004;
-const mongoDAO = require('./mongoDAO')
+const mongodb = require('./mongoDAO')
 const ejs = require('ejs')
 
 
@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 app.get('/employees', (req, res) => {
     mysql.getEmployeesSQL()
         .then((data) => {
-            res.send(data);
+            res.render('employees', {employees: data});
         }).catch((error) => {
             res.send(error);
         })
@@ -31,5 +31,10 @@ app.get('/departments', (req, res) => {
         })
 });
 app.get('/employeesmdb', (req, res) => {
-    res.send('employeesmdb')
+    mongodb.getEmployeesMDB()
+    .then((data) => {
+        res.send(data);
+    }).catch((error) => {
+        res.send(error);
+    })
 });

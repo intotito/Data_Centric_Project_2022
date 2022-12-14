@@ -1,4 +1,39 @@
-<body>
+<body id="'emp_body">
+    <table id="emp_table">
+        <tr>
+            <th id="emp_table_header">EID</th>
+            <th id="emp_table_header">Name</th>
+            <th id="emp_table_header">Role</th>
+            <th id="emp_table_header">Salary</th>
+            <th id="emp_table_header">Update</th>
+        </tr>
+        <% employees.forEach((e) => { %>
+        <tr>
+            <td id="emp_table_data">
+                <%= e.eid  %>
+            </td>
+            <td id="emp_table_data">
+                <%= e.ename  %>
+            </td>
+            <td id="emp_table_data">
+                <%= e.role %>
+            </td>
+            <td id="emp_table_data">
+                <%= e.salary  %>
+            </td>
+            <td id="emp_table_data">
+                <a href="./update">Update</a>
+            </td>
+            <% }) %>
+        </tr>
+    </table>
+</body>
+
+
+
+
+
+<!-- <body>
     <h1>Add Student</h1>
     <form action="/addEmployee" method="POST">
         <label>ID:</label>
@@ -17,4 +52,4 @@
         <input type="number" name="salary"><br>
         <input type="submit" value="OK">
     </form>
-</body>
+</body> -->
