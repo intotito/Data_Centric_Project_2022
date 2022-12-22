@@ -1,0 +1,27 @@
+<body>
+    <h1>Edit Employee</h1>
+    <form action="/employees/edit/:<%= emp.eid %>" method="POST">
+        <label>EID:</label>
+        <input type="text" name="eid" id="eid" value="<%= emp.eid %>" readonly><br>
+
+        <label>Name</label>
+        <input type="text" name="ename" id="ename" value="<%= emp.ename %>" minlength="5"><br>
+
+        <label>Role</label>
+
+        <select name="role" id="role">
+            <option value="Manager" <% if(emp.role == 'Manager'){ %> selected <% } %>>Manager</option>
+            <option value="Employee" <% if(emp.role == 'Employee'){ %> selected <% } %>>Employee</option>
+        </select>
+
+        
+        <br>
+
+        <label>Salary</label>
+        <input type="number" name="salary" id="salary" value="<%= emp.salary %>" min="0.0"><br>
+
+        <input type="submit" value="Update">
+    </form>
+
+    <button onclick="window.location.href='../../'">Home</button>
+</body>

@@ -27,6 +27,19 @@ var getEmployeesSQL = function () {
     })
 }
 
+var getEmployeeSQL = function(eid) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM employee WHERE eid = '${eid}'`)
+        .then((data) => {
+            console.log(data);
+            resolve(data);
+        })
+        .catch((error) => {
+            reject(error);
+        })
+    });
+}
+
 var getDepartments = function(){
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM dept')
@@ -39,8 +52,30 @@ var getDepartments = function(){
     })
 }
 
+var updateEmployeeSQL = function(param){
+    return new Promise((resolve, reject) => {
+        const [kFirst, ...keys] = Object.keys(param);
+        keys.push(kFirst);
+        const [vFirst, ...body] = Object.values(param);
+        body.push(vFirst);
+        
+       let str = pMysql.format(`UPDATE employee SET ${keys[0]} = ?, ${keys[1]} = ?, ${keys[2]} = ? WHERE ${keys[3]} = ?`, Object.values(body));
+       console.log("Check this", str);
+
+        connection.query(`UPDATE employee SET ${keys[0]} = ?, ${keys[1]} = ?, ${keys[2]} = ? WHERE ${keys[3]} = ?`, Object.values(body))
+        .then((data) => {
+            console.log(data);
+            resolve(data);
+        })
+        .catch((error) => {
+            console.log(error);
+            reject(data);
+        })
+    })
+}
 
 
 
 
-module.exports = { getEmployeesSQL, getDepartments }
+
+module.exports = { getEmployeesSQL, getDepartments, getEmployeeSQL, updateEmployeeSQL }
