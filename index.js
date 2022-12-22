@@ -90,8 +90,35 @@ app.get('/depts/delete/:did', (req, res) => {
 app.get('/employeesmdb', (req, res) => {
     mongodb.getEmployeesMDB()
     .then((data) => {
-        res.send(data);
+        res.render('employeesMDB', {employees: data});
     }).catch((error) => {
         res.send(error)
     })
 });
+
+app.get('/employees/mongoDB/add', (req, res) => {
+    res.render('add-employee-mdb');
+});
+
+app.post('/employees/mongoDB/add', (req, res) => {
+    mysql.findEmployeeSQL(req.body)
+    .then((data) => {
+        console.log("Checko", req.body);
+        mongodb.addEmployeeMDB(req.body)
+        .then((data) => {
+            if(data.added === true){
+                res.redirect('/employeesmdb')
+            } else {
+                console.log("Are you rendering errors");
+                res.render('error', {error:{title: 'Error Message', msg:data.msg}})
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+            res.render('error', {error:{title: 'Error Message', msg:error.msg}})
+        })
+    })
+    .catch((error) => {
+        res.render('error', {error:{title: 'Error Message', msg:error.msg}});
+    })
+})

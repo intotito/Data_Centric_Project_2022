@@ -1,0 +1,29 @@
+<body id="'emp_body">
+    <a href="/employees/mongoDB/add">Add Employees (MongoDB)</a>
+    <table id="emp_table">
+        <tr>
+            <th id="emp_table_header">EID</th>
+            <th id="emp_table_header">Phone</th>
+            <th id="emp_table_header">Email</th>
+        </tr>
+        <% employees.forEach((e) => { %>
+        <tr>
+            <td id="emp_table_data">
+                <%= e._id  %>
+            </td>
+            <td id="emp_table_data">
+                <%= e.phone  %>
+            </td>
+            <td id="emp_table_data">
+                <%= e.email %>
+            </td>
+            <% }) %>
+        </tr>
+    </table>
+    <a href='./'>Home</a>
+</body>
+
+
+
+
+

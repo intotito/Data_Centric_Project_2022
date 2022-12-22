@@ -89,9 +89,25 @@ var deleteDepartmentSQL = function (param) {
 
 }
 
+var findEmployeeSQL = function(param){
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM employee WHERE eid='${param._id}'`)
+        .then((data) => {
+            if(data.length > 0) {
+                resolve({found: true});
+            } else {
+                reject({found: false, msg: `Employee width id '${param._id}' does not exist in MySQL Database`})
+            }
+        })
+        .catch((error) => {
+            reject({found: false, msg: error});
+        })
+    })
+}
 
 
 
 
 
-module.exports = { getEmployeesSQL, getDepartmentsSQL, getEmployeeSQL, updateEmployeeSQL, deleteDepartmentSQL }
+
+module.exports = { getEmployeesSQL, getDepartmentsSQL, getEmployeeSQL, updateEmployeeSQL, deleteDepartmentSQL, findEmployeeSQL }

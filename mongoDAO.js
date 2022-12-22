@@ -31,4 +31,17 @@ const getEmployeesMDB = function(){
         })
     })
 }
-module.exports = {getEmployeesMDB}
+
+const addEmployeeMDB = function(param) {
+    return new Promise((resolve, reject) => {
+        coll.insertOne(param)
+        .then((result) => {
+            resolve({added: true, _id: result.insertId});
+        })
+        .catch((error) => {
+ //           console.log(error);
+            reject({added: false, msg: `Employee with Id '${param._id}' already exist in MongoDB`});
+        })
+    })
+}
+module.exports = {getEmployeesMDB, addEmployeeMDB}
