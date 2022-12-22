@@ -69,12 +69,29 @@ app.get('/depts', (req, res) => {
     })
 })
 
+app.get('/depts/delete/:did', (req, res) => {
+
+    mysql.deleteDepartmentSQL({did: req.params.did.substring(1,)})
+    .then((data) => {
+        console.log("Odogwu", data);
+    })
+    .catch((error) => {
+        res.render('error',
+            {
+                error:{
+                    title: 'Error Message', 
+                    msg: `Department '${req.params.did.substring(1,)}' has Employees and cannot be deleted'`
+                }
+            }
+        );
+    })
+})
 
 app.get('/employeesmdb', (req, res) => {
     mongodb.getEmployeesMDB()
     .then((data) => {
         res.send(data);
     }).catch((error) => {
-        res.send(error);
+        res.send(error)
     })
 });

@@ -27,55 +27,71 @@ var getEmployeesSQL = function () {
     })
 }
 
-var getEmployeeSQL = function(eid) {
+var getEmployeeSQL = function (eid) {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM employee WHERE eid = '${eid}'`)
-        .then((data) => {
-            console.log(data);
-            resolve(data);
-        })
-        .catch((error) => {
-            reject(error);
-        })
+            .then((data) => {
+                console.log(data);
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            })
     });
 }
 
-var getDepartmentsSQL = function(){
+var getDepartmentsSQL = function () {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT D.did as did, D.dname as dname, D.budget as budget, L.county as location FROM dept as D inner join location as L on D.lid = L.lid`)
-        .then((data) => {
-            resolve(data);
-        })
-        .catch((error) => {
-            reject(error);
-        })
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((error) => {
+                reject(error);
+            })
     })
 }
 
-var updateEmployeeSQL = function(param){
+var updateEmployeeSQL = function (param) {
     return new Promise((resolve, reject) => {
         const [kFirst, ...keys] = Object.keys(param);
         keys.push(kFirst);
         const [vFirst, ...body] = Object.values(param);
         body.push(vFirst);
-        
-       let str = pMysql.format(`UPDATE employee SET ${keys[0]} = ?, ${keys[1]} = ?, ${keys[2]} = ? WHERE ${keys[3]} = ?`, Object.values(body));
-       console.log("Check this", str);
+
+        let str = pMysql.format(`UPDATE employee SET ${keys[0]} = ?, ${keys[1]} = ?, ${keys[2]} = ? WHERE ${keys[3]} = ?`, Object.values(body));
+        console.log("Check this", str);
 
         connection.query(`UPDATE employee SET ${keys[0]} = ?, ${keys[1]} = ?, ${keys[2]} = ? WHERE ${keys[3]} = ?`, Object.values(body))
-        .then((data) => {
-            console.log(data);
-            resolve(data);
-        })
-        .catch((error) => {
-            console.log(error);
-            reject(data);
-        })
+            .then((data) => {
+                console.log(data);
+                resolve(data);
+            })
+            .catch((error) => {
+                console.log(error);
+                reject(data);
+            })
     })
+}
+
+var deleteDepartmentSQL = function (param) {
+    return new Promise((resolve, reject) => {
+        connection.query(`DELETE FROM dept WHERE did = '${param.did}'`)
+            .then((data) => {
+                console.log("Result", data);
+                resolve(data);
+            })
+            .catch((error) => {
+                console.log(error);
+                reject(error);
+            })
+    })
+
 }
 
 
 
 
 
-module.exports = { getEmployeesSQL, getDepartmentsSQL, getEmployeeSQL, updateEmployeeSQL }
+
+module.exports = { getEmployeesSQL, getDepartmentsSQL, getEmployeeSQL, updateEmployeeSQL, deleteDepartmentSQL }
