@@ -57,6 +57,18 @@ app.post('/employees/edit/:eid', (req, res) => {
     })
 })
 
+app.get('/depts', (req, res) => {
+    mysql.getDepartmentsSQL()
+    .then((data) => {
+        console.log(data);
+        res.render('departments', {depts: data});
+    })
+    .catch((error) => {
+        console.log(error);
+        res.send(error);
+    })
+})
+
 
 app.get('/employeesmdb', (req, res) => {
     mongodb.getEmployeesMDB()

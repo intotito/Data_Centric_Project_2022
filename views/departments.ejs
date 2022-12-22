@@ -1,0 +1,30 @@
+<body>
+    <table id="table">
+        <tr>
+            <th id="table_header">DID</th>
+            <th id="table_header">Name</th>
+            <th id="table_header">Budget</th>
+            <th id="table_header">Location</th>
+            <th id="table_header">Delete</th>
+        </tr>
+        <% depts.forEach((d) => { %>
+        <tr>
+            <td id="table_data">
+                <%= d.did  %>
+            </td>
+            <td id="table_data">
+                <%= d.dname  %>
+            </td>
+            <td id="table_data">
+                <%= d.budget %>
+            </td>
+            <td id="table_data">
+                <%= d.location %>
+            </td>
+            <td id="table_data">
+                <a href='./depts/delete/:<%= d.did %>'>Delete</a>
+            </td>
+            <% }) %>
+        </tr>
+    </table>
+</body>

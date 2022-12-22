@@ -40,9 +40,9 @@ var getEmployeeSQL = function(eid) {
     });
 }
 
-var getDepartments = function(){
+var getDepartmentsSQL = function(){
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM dept')
+        connection.query(`SELECT D.did as did, D.dname as dname, D.budget as budget, L.county as location FROM dept as D inner join location as L on D.lid = L.lid`)
         .then((data) => {
             resolve(data);
         })
@@ -78,4 +78,4 @@ var updateEmployeeSQL = function(param){
 
 
 
-module.exports = { getEmployeesSQL, getDepartments, getEmployeeSQL, updateEmployeeSQL }
+module.exports = { getEmployeesSQL, getDepartmentsSQL, getEmployeeSQL, updateEmployeeSQL }
