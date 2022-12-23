@@ -1,35 +1,42 @@
-<body id="'emp_body">
-    <table id="emp_table">
-        <tr>
-            <th id="emp_table_header">EID</th>
-            <th id="emp_table_header">Name</th>
-            <th id="emp_table_header">Role</th>
-            <th id="emp_table_header">Salary</th>
-            <th id="emp_table_header">Update</th>
-        </tr>
-        <% employees.forEach((e) => { %>
-        <tr>
-            <td id="emp_table_data">
-                <%= e.eid  %>
-            </td>
-            <td id="emp_table_data">
-                <%= e.ename  %>
-            </td>
-            <td id="emp_table_data">
-                <%= e.role %>
-            </td>
-            <td id="emp_table_data">
-                <%= e.salary  %>
-            </td>
-            <td id="emp_table_data">
-                <a href='./employees/edit/:<%= e.eid %>'>Update</a>
-            </td>
-            <% }) %>
-        </tr>
-    </table>
-</body>
+<%- include('header'); -%>
+    <div class="row">
+        <div class="offset-md-2 offset-sm-0 col-md-8 col-sm-12 col-lg-6 offset-lg-3">
+            <h1 class="h2">Employees</h1>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>EID</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Salary</th>
+                            <th>Update</th>
+                        </tr>
+                    </thead>
+                    <% employees.forEach((e)=> { %>
+                        <tr>
+                            <td>
+                                <%= e.eid %>
+                            </td>
+                            <td>
+                                <%= e.ename %>
+                            </td>
+                            <td>
+                                <%= e.role %>
+                            </td>
+                            <td>
+                                <%= e.salary %>
+                            </td>
+                            <td>
+                                <a class="nav-link" href='./employees/edit/:<%= e.eid %>'>
+                                    <span data-feather="edit"></span>Update
+                                </a>
+                            </td>
 
-
-
-
-
+                        </tr>
+                        <% }) %>
+                </table>
+            </div>
+        </div>
+    </div>
+    <%- include('footer.html'); -%>

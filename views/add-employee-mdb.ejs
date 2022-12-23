@@ -1,17 +1,32 @@
-<body>
-    <h1>Add Employee (MongoDB)</h1>
-    <form action="/employees/mongoDB/add" method="POST">
-        <label>EID:</label>
-        <input type="text" name="_id" id="_id" minlength="4" maxlength="4"><br>
+<%- include('header'); -%>
+    <div class="row">
+        <div class="offset-md-3 offset-sm-1 col-md-6 col-sm-8 col-lg-4 offset-lg-4">
+            <div class="col-12 offset-0">
+                <h1 class="h3 my-4">Add Employee (MongoDB)</h1>
+                <ul>
+                    <li><span class="badge badge-info">EID must be 4 characters</span></li>
+                    <li><span class="badge badge-info">Phone must be >5 characters</span></li>
+                    <li><span class="badge badge-info">Must be a valid email address</span></li>
+                </ul>
+            </div>
+            <form action="/employees/mongoDB/add" method="POST">
+                <label for="_id" class="col-3 col-form-label">EID:</label>
+                <input type="text" name="_id" id="_id" minlength="4" maxlength="4"><br>
 
-        <label>Phone</label>
-        <input type="text" name="phone" id="phone" minlength="6"><br>
+                <label for="phone" class="col-3 col-form-label">Phone</label>
+                <input type="text" name="phone" id="phone" minlength="6"><br>
 
-        <label>Email</label>
-        <input type="email" name="email" id="email"><br>
+                <label for="emial" class="col-3 col-form-label">Email</label>
+                <input type="email" name="email" id="email"><br>
 
-        <input type="submit" value="Add">
-    </form>
+                <input class="btn btn-dark my-2" type="submit" value="Add" >
+            </form>
 
-    <button onclick="window.location.href='../../'">Home</button>
-</body>
+            <a href='../../'>
+                <span data-feather="home" class="my-4"></span>
+                <h4 class="h5 d-inline">Home</h4>
+            </a>
+        </div>
+    </div>
+    </div>
+    <%- include('footer.html'); -%>

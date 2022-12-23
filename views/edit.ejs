@@ -1,27 +1,51 @@
-<body>
-    <h1>Edit Employee</h1>
-    <form action="/employees/edit/:<%= emp.eid %>" method="POST">
-        <label>EID:</label>
-        <input type="text" name="eid" id="eid" value="<%= emp.eid %>" readonly><br>
+<%- include('header'); -%>
+    <div class="row">
+        <div class="offset-md-3 offset-sm-1 col-md-6 col-sm-8 col-lg-3 offset-lg-4">
+            <div class="col-12 offset-0">
+                <h1 class="h1 my-4">Edit Employee</h1>
+                <ul>
+                    <li><span class="badge badge-info">Employee Name must be at least 5 characters</span></li>
+                    <li><span class="badge badge-info">Role can be either Manager or Employee</span></li>
+                    <li><span class="badge badge-info">Salary must be > 0</span></li>
+                </ul>
+            </div>
+            <form action="/employees/edit/:<%= emp.eid %>" method="POST">
+                <div class="form-group row">
+                    <label for="eid" class="col-3 col-form-label">EID:</label>
+                    <div class="col-9">
+                        <input type="text" class="form-control-plaintext border border-dark rounded my-2" name="eid" id="eid"
+                            value="<%= emp.eid %>" readonly>
+                    </div> 
+                    <label for="ename" class="col-3 col-form-label">Name</label>
+                    <div class="col-9">
+                        <input type="text" class="form-control-plaintext border border-dark rounded my-2" name="ename"
+                            id="ename" value="<%= emp.ename %>" minlength="5">
+                    </div>
 
-        <label>Name</label>
-        <input type="text" name="ename" id="ename" value="<%= emp.ename %>" minlength="5"><br>
+                    <label for="role" class="col-3 col-form-label">Role</label>
+                    <div class="col-9">
+                        <select name="role" id="role" class="custom-select mr-sm-2 my-2">
+                            <option value="Manager" <% if(emp.role=='Manager' ){ %> selected <% } %>>Manager</option>
+                            <option value="Employee" <% if(emp.role=='Employee' ){ %> selected <% } %>>Employee</option>
+                        </select>
+                    </div>
 
-        <label>Role</label>
 
-        <select name="role" id="role">
-            <option value="Manager" <% if(emp.role == 'Manager'){ %> selected <% } %>>Manager</option>
-            <option value="Employee" <% if(emp.role == 'Employee'){ %> selected <% } %>>Employee</option>
-        </select>
+                    
 
-        
-        <br>
+                    <label for="salary" class="col-3 col-form-label">Salary</label>
+                    <div class="col-9">
+                        <input type="number" class="form-control border border-dark rounded my-2" name="salary" id="salary"
+                            value="<%= emp.salary %>" min="0.0">
+                    </div>
 
-        <label>Salary</label>
-        <input type="number" name="salary" id="salary" value="<%= emp.salary %>" min="0.0"><br>
-
-        <input type="submit" value="Update">
-    </form>
-
-    <button onclick="window.location.href='../../'">Home</button>
-</body>
+                    <input class="btn btn-dark my-2" type="submit" value="Update">
+                </div>
+            </form>
+            <a href='../../'>
+                <span data-feather="home" class="my-4"></span>
+                <h4 class="h5 d-inline">Home</h4>
+            </a>
+        </div>
+    </div>
+    <%- include('footer.html'); -%>

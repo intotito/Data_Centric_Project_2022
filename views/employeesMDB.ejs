@@ -1,29 +1,39 @@
-<body id="'emp_body">
-    <a href="/employees/mongoDB/add">Add Employees (MongoDB)</a>
-    <table id="emp_table">
-        <tr>
-            <th id="emp_table_header">EID</th>
-            <th id="emp_table_header">Phone</th>
-            <th id="emp_table_header">Email</th>
-        </tr>
-        <% employees.forEach((e) => { %>
-        <tr>
-            <td id="emp_table_data">
-                <%= e._id  %>
-            </td>
-            <td id="emp_table_data">
-                <%= e.phone  %>
-            </td>
-            <td id="emp_table_data">
-                <%= e.email %>
-            </td>
-            <% }) %>
-        </tr>
-    </table>
-    <a href='./'>Home</a>
-</body>
-
-
-
-
-
+<%- include('header'); -%>
+    <div class="row">
+        <div class="offset-md-2 offset-sm-0 col-md-8 col-sm-12 col-lg-6 offset-lg-3">
+            <h1 class="h2 my-3">Employees (MongoDB)</h1>
+            <div class="my-2 py-2">
+            <a href="/employees/mongoDB/add"><span data-feather="plus"></span>
+                <h3 class="h4" style="display: inline;">Add Employees (MongoDB)</h3>
+            </a></div>
+            <div class="table-responsive">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>EID</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <% employees.forEach((e)=> { %>
+                        <tr>
+                            <td>
+                                <%= e._id %>
+                            </td>
+                            <td>
+                                <%= e.phone %>
+                            </td>
+                            <td>
+                                <%= e.email %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </table>
+            </div>
+            <a href='./'>
+                <span data-feather="home"></span>
+                <h4 class="h5 d-inline">Home</h4>
+            </a>
+        </div>
+    </div>
+    <%- include('footer.html'); -%>

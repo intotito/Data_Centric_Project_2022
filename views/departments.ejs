@@ -1,30 +1,46 @@
-<body>
-    <table id="table">
-        <tr>
-            <th id="table_header">DID</th>
-            <th id="table_header">Name</th>
-            <th id="table_header">Budget</th>
-            <th id="table_header">Location</th>
-            <th id="table_header">Delete</th>
-        </tr>
-        <% depts.forEach((d) => { %>
-        <tr>
-            <td id="table_data">
-                <%= d.did  %>
-            </td>
-            <td id="table_data">
-                <%= d.dname  %>
-            </td>
-            <td id="table_data">
-                <%= d.budget %>
-            </td>
-            <td id="table_data">
-                <%= d.location %>
-            </td>
-            <td id="table_data">
-                <a href='./depts/delete/:<%= d.did %>'>Delete</a>
-            </td>
-            <% }) %>
-        </tr>
-    </table>
-</body>
+<%- include('header'); -%>
+    <div class="row">
+        <div class="offset-md-2 offset-sm-0 col-md-8 col-sm-12 col-lg-6 offset-lg-3">
+            <h1 class="h1 my-4">Departments</h1>
+            <div class="table-responsive my-2">
+                <table class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th>DID</th>
+                            <th>Name</th>
+                            <th>Budget</th>
+                            <th>Location</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <% depts.forEach((d)=> { %>
+                        <tr>
+                            <td>
+                                <%= d.did %>
+                            </td>
+                            <td>
+                                <%= d.dname %>
+                            </td>
+                            <td>
+                                <%= d.budget %>
+                            </td>
+                            <td>
+                                <%= d.location %>
+                            </td>
+                            <td>
+                                <a class="nav-link" href='./depts/delete/:<%= d.did %>'>
+                                    <span  data-feather="trash-2"></span>
+                                    Delete
+                                </a>
+                            </td>
+                            <% }) %>
+                        </tr>
+                </table>
+            </div>
+            <a href='./'>
+                <span data-feather="home"></span>
+                <h4 class="h5 d-inline">Home</h4>
+            </a>
+        </div>
+    </div>
+    <%- include('footer.html'); -%>

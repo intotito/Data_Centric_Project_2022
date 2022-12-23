@@ -1,4 +1,25 @@
-<h1>Welcome</h1>
-<h3><a href='./employees'>Employees</a></h3>
-<h3><a href='./depts'>Departments</a></h3>
-<h3><a href='./employeesmdb'>Employees(MongoDB)</a></h3>
+<%- include('header'); -%>
+    <h1>Welcome</h1>
+
+
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="./employees">
+                <span data-feather="users"></span>
+                Employees
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./depts">
+                <span data-feather="grid"></span>
+                Departments
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="./employeesmdb">
+                <span data-feather="users"></span>
+                Employees (MongoDB)
+            </a>
+        </li>
+    </ul>
+    <%- include('footer.html'); -%>

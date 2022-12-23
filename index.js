@@ -74,12 +74,13 @@ app.get('/depts/delete/:did', (req, res) => {
     mysql.deleteDepartmentSQL({did: req.params.did.substring(1,)})
     .then((data) => {
         console.log("Odogwu", data);
+        res.redirect('/depts');
     })
     .catch((error) => {
         res.render('error',
             {
                 error:{
-                    title: 'Error Message', 
+                    title: 'Delete Error', 
                     msg: `Department '${req.params.did.substring(1,)}' has Employees and cannot be deleted'`
                 }
             }
@@ -110,15 +111,15 @@ app.post('/employees/mongoDB/add', (req, res) => {
                 res.redirect('/employeesmdb')
             } else {
                 console.log("Are you rendering errors");
-                res.render('error', {error:{title: 'Error Message', msg:data.msg}})
+                res.render('error', {error:{title: 'Create Error', msg:data.msg}})
             }
         })
         .catch((error) => {
             console.log(error);
-            res.render('error', {error:{title: 'Error Message', msg:error.msg}})
+            res.render('error', {error:{title: 'Create Error', msg:error.msg}})
         })
     })
     .catch((error) => {
-        res.render('error', {error:{title: 'Error Message', msg:error.msg}});
+        res.render('error', {error:{title: 'Create Error', msg:error.msg}});
     })
 })
