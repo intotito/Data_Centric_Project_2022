@@ -1,4 +1,6 @@
+// Use Promise based MySQL
 const pMysql = require('promise-mysql');
+// Represents a MySQL connection, fromm which queries are run
 var connection;
 pMysql.createPool({
     connectionLimit: 3,
@@ -11,9 +13,11 @@ pMysql.createPool({
 }).catch(e => {
     console.log('Pool Error');
 });
-/* 
- ; */
 
+/**
+ * This method queries the MySQL database for the list of employees records. 
+ * @returns {Promise} A promise based result from MySQL query on the 'employee' table
+ */
 var getEmployeesSQL = function () {
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM employee')
@@ -26,6 +30,13 @@ var getEmployeesSQL = function () {
             })
     })
 }
+
+/**
+ * This method queries the database for the information of a particular employee. The employee's record to be fetched is 
+ * identified with  the parameter 'eid'.
+ * @param {String} eid - The unique identification number of the emloyee' s records to be fetched
+ * @returns {Promise} A promise based result from MySQL query on the 'employee' table
+ */
 
 var getEmployeeSQL = function (eid) {
     return new Promise((resolve, reject) => {
@@ -40,6 +51,11 @@ var getEmployeeSQL = function (eid) {
     });
 }
 
+/**
+ * This method queries the 'dept' and 'location' tables to get all information associated with a department. 
+ * The location id - 'lid' on both tables are used as the foreign key in the MySQL join operation.
+ * @returns {Promise} A promise based result from MySQL query.
+ */
 var getDepartmentsSQL = function () {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT D.did as did, D.dname as dname, D.budget as budget, L.county as location FROM dept as D inner join location as L on D.lid = L.lid`)
@@ -52,8 +68,21 @@ var getDepartmentsSQL = function () {
     })
 }
 
+/**
+ * This method runs an update query on the MySQL database to update the information of a given employee. 
+ * @param {Object} param - Contains information to be updated on the 'employee' table
+ * @param {String} param.id - The unique identification code of the employee's information to be updated
+ * @param {String} param.ename - The name of the employee
+ * @param {String} param.role - The role of the employee
+ * @param {Number} param.salary - The salary of the employee
+ * @returns {Promise} A promise based result of the MySQL query.
+ */
 var updateEmployeeSQL = function (param) {
     return new Promise((resolve, reject) => {
+        /* 
+        Swaps the first element of the array with the last element so the param from the HTML form
+        is in the same form as as in the database.
+        */
         const [kFirst, ...keys] = Object.keys(param);
         keys.push(kFirst);
         const [vFirst, ...body] = Object.values(param);
@@ -74,6 +103,12 @@ var updateEmployeeSQL = function (param) {
     })
 }
 
+/**
+ * This method deletes a given department from the MySQL database.
+ * @param {Object} param - Contains  information about the department to be deleted from the MySQL database
+ * @param {String} param.id - The unique identification code of the department to be deleted
+ * @returns {Promise} A promise based result of the MySQL query.
+ */
 var deleteDepartmentSQL = function (param) {
     return new Promise((resolve, reject) => {
         connection.query(`DELETE FROM dept WHERE did = '${param.did}'`)
@@ -89,6 +124,12 @@ var deleteDepartmentSQL = function (param) {
 
 }
 
+/**
+ * This method queries the MySQL database with id supplied from the MongoDB database to check if it exist on the MySQL database. 
+ * @param {Object} param - Contains information about the employee's information to be fetched on the MongoDB database
+ * @param {String} param._id - The unique identification code of the employee on the MongoDB database. 
+ * @returns {Promise} A promise based result of the MySQL query.
+ */
 var findEmployeeSQL = function(param){
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM employee WHERE eid='${param._id}'`)
