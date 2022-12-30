@@ -1,13 +1,20 @@
+// Create an Express Application
 const express = require('express');
 const mysql = require('./mySqlDAO')
 const app = express();
+
+// Port where the Express Server will be running
 const PORT = 3004;
+
+// Import mongodb querry function from specified file 
 const mongodb = require('./mongoDAO')
 const ejs = require('ejs')
 
-
+// Set the Application's default View Engine to EJS
 app.set('view engine', 'ejs')
-app.listen(3004, () => {
+
+// Start listening at specified Port Number
+app.listen(PORT, () => {
     console.log("Server Listening on Port", PORT);
 });
 
@@ -16,17 +23,24 @@ app.use(express.urlencoded({
     extended: true
 }))
 
+// Handle HTTP GET request at '/'
 app.get('/', (req, res) => {
+    // Render home page
     res.render('home');
-});
+})
+
+// Handle HTTP GET request at '/employees'
 app.get('/employees', (req, res) => {
     mysql.getEmployeesSQL()
         .then((data) => {
+            // render EJS file name 'employees.ejs' with specified parameter
             res.render('employees', {employees: data});
         }).catch((error) => {
             res.send(error);
         })
 });
+
+// Handle HTTP GET request at '/departments'
 app.get('/departments', (req, res) => {
     mysql.getDepartments()
         .then((data) => {
@@ -36,6 +50,7 @@ app.get('/departments', (req, res) => {
         })
 });
 
+// Handle HTTP GET request at '/emplooyees/edit/' with parameter 'eid'
 app.get('/employees/edit/:eid', (req, res) => {
     mysql.getEmployeeSQL(req.params.eid.substring(1,))
         .then((data) => {
@@ -46,17 +61,20 @@ app.get('/employees/edit/:eid', (req, res) => {
         })
 });
 
+// Handle HTTP POST request at '/employees/edit/' with parameter 'eid'
 app.post('/employees/edit/:eid', (req, res) => {
     console.log("This is the body", req.body);
     mysql.updateEmployeeSQL(req.body)
     .then((data) => {
         console.log(data);
+        // Redirect to '../../employees' if update successful
         res.redirect('../../employees');
     }).catch((error) => {
         res.send(error);
     })
 })
 
+// Handle HTTP GET request at '/depts'
 app.get('/depts', (req, res) => {
     mysql.getDepartmentsSQL()
     .then((data) => {
@@ -69,14 +87,15 @@ app.get('/depts', (req, res) => {
     })
 })
 
+// Handle HTTP GET request at '/depts/delete' with parameter 'did'
 app.get('/depts/delete/:did', (req, res) => {
-
     mysql.deleteDepartmentSQL({did: req.params.did.substring(1,)})
     .then((data) => {
-        console.log("Odogwu", data);
+        // Redirect user to '/depts' if successfull
         res.redirect('/depts');
     })
     .catch((error) => {
+        // Render Errom message with relevant messages to the user if deletion attempt fails. 
         res.render('error',
             {
                 error:{
@@ -88,6 +107,7 @@ app.get('/depts/delete/:did', (req, res) => {
     })
 })
 
+// Handle HTTP GET request at '/employeesmdg'
 app.get('/employeesmdb', (req, res) => {
     mongodb.getEmployeesMDB()
     .then((data) => {
@@ -97,20 +117,23 @@ app.get('/employeesmdb', (req, res) => {
     })
 });
 
+// Handle HTTP GET request at '/employees/mongoDB/add'
 app.get('/employees/mongoDB/add', (req, res) => {
+    // Renders the 'add-employee-mb' form to the user.
     res.render('add-employee-mdb');
 });
 
+// Handle HTTP POST request at '/employees/mongoDB/add'
 app.post('/employees/mongoDB/add', (req, res) => {
     mysql.findEmployeeSQL(req.body)
     .then((data) => {
-        console.log("Checko", req.body);
+
         mongodb.addEmployeeMDB(req.body)
         .then((data) => {
             if(data.added === true){
+                // Redirect user to '/employeesmdb' if successfull.
                 res.redirect('/employeesmdb')
             } else {
-                console.log("Are you rendering errors");
                 res.render('error', {error:{title: 'Create Error', msg:data.msg}})
             }
         })
