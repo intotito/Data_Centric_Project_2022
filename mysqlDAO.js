@@ -14,22 +14,45 @@ pMysql.createPool({
     console.log('Pool Error');
 });
 
+
+
+
+
+
+
 /**
  * This method queries the MySQL database for the list of employees records. 
+ * @param {Request} req - The HTML Request.
+ * @param {Number} [req.params.select] - Indicating whether the request will be sorted in a specified column index.  
  * @returns {Promise} A promise based result from MySQL query on the 'employee' table
  */
-var getEmployeesSQL = function () {
+var getEmployeesSQL = function (req) {
+    // list of possible columns to use as sort criteria
+    var emplSQLCols = ['eid', 'ename', 'role', 'salary'];
+    // default to the first column
+    let col = 0;
+    let from = emplSQLCols[col];
+    if (req.params.select) { // Check if an extrap parameter was specified in the url
+        if (req.params.select >= 0 && req.params.select < 4) { // Check if parameter is within acceptable range
+            console.log('found select', req.params.select);
+            from = emplSQLCols[req.params.select];
+            col = req.params.select;
+        }
+    }
     return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM employee')
+        connection.query(`SELECT * FROM employee ORDER BY ${from} ASC`)
             .then((data) => {
-                console.log(data);
-                resolve(data);
+                //                console.log({col: emplSQLCol, order: emplSQLOrder, data: data});
+                resolve({ col: col, data: data, });
             })
             .catch((error) => {
                 reject(error);
             })
     })
 }
+
+
+
 
 /**
  * This method queries the database for the information of a particular employee. The employee's record to be fetched is 
@@ -38,7 +61,7 @@ var getEmployeesSQL = function () {
  * @returns {Promise} A promise based result from MySQL query on the 'employee' table
  */
 
-var getEmployeeSQL = function (eid) {
+var getEmployeeSQL = function (eid, res) {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM employee WHERE eid = '${eid}'`)
             .then((data) => {
@@ -130,19 +153,19 @@ var deleteDepartmentSQL = function (param) {
  * @param {String} param._id - The unique identification code of the employee on the MongoDB database. 
  * @returns {Promise} A promise based result of the MySQL query.
  */
-var findEmployeeSQL = function(param){
+var findEmployeeSQL = function (param) {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * FROM employee WHERE eid='${param._id}'`)
-        .then((data) => {
-            if(data.length > 0) {
-                resolve({found: true});
-            } else {
-                reject({found: false, msg: `Employee width id '${param._id}' does not exist in MySQL Database`})
-            }
-        })
-        .catch((error) => {
-            reject({found: false, msg: error});
-        })
+            .then((data) => {
+                if (data.length > 0) {
+                    resolve({ found: true });
+                } else {
+                    reject({ found: false, msg: `Employee width id '${param._id}' does not exist in MySQL Database` })
+                }
+            })
+            .catch((error) => {
+                reject({ found: false, msg: error });
+            })
     })
 }
 

@@ -29,12 +29,15 @@ app.get('/', (req, res) => {
     res.render('home');
 })
 
+
+
 // Handle HTTP GET request at '/employees'
-app.get('/employees', (req, res) => {
-    mysql.getEmployeesSQL()
+app.get('/employees/:select?', (req, res) => {
+    mysql.getEmployeesSQL(req)
         .then((data) => {
+
             // render EJS file name 'employees.ejs' with specified parameter
-            res.render('employees', {employees: data});
+            res.render('employees', {employees: data.data, col: data.col});
         }).catch((error) => {
             res.send(error);
         })
@@ -52,6 +55,7 @@ app.get('/departments', (req, res) => {
 
 // Handle HTTP GET request at '/emplooyees/edit/' with parameter 'eid'
 app.get('/employees/edit/:eid', (req, res) => {
+    console.log("Did we get here?");
     mysql.getEmployeeSQL(req.params.eid.substring(1,))
         .then((data) => {
             console.log(data[0]);

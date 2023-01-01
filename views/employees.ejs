@@ -1,42 +1,111 @@
 <%- include('header'); -%>
-    <div class="row">
-        <div class="offset-md-2 offset-sm-0 col-md-8 col-sm-12 col-lg-6 offset-lg-3">
-            <h1 class="h2">Employees</h1>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th>EID</th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Salary</th>
-                            <th>Update</th>
-                        </tr>
-                    </thead>
-                    <% employees.forEach((e)=> { %>
-                        <tr>
-                            <td>
-                                <%= e.eid %>
-                            </td>
-                            <td>
-                                <%= e.ename %>
-                            </td>
-                            <td>
-                                <%= e.role %>
-                            </td>
-                            <td>
-                                <%= e.salary %>
-                            </td>
-                            <td>
-                                <a class="nav-link" href='./employees/edit/:<%= e.eid %>'>
-                                    <span data-feather="edit"></span>Update
-                                </a>
-                            </td>
+    
 
-                        </tr>
-                        <% }) %>
-                </table>
-            </div>
-        </div>
-    </div>
-    <%- include('footer.html'); -%>
+                    <script>
+                        /**
+                         * @type {function} - Reoload the page with the relevant parameter
+                        */
+                        var sort = (action) => {
+                            document.location.href = `../employees/${action}`
+                        }
+                    </script>
+
+                    <div class="offset-md-2 offset-sm-0 col-md-8 col-sm-12 col-lg-6 offset-lg-3">
+                        <h1 class="h2">Employees</h1>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="btn btn-light d-flex justify-content-between flex-row "
+                                                style="cursor:pointer;" onclick="sort(0)">
+                                                <div class="d-flex">EID</div>
+
+                                                <span class="d-flex" id="eid_column">
+                                                    <% if(col==0){ %>
+                                                        &#9650;
+                                                        <%} else { %>
+                                                            &#9651;
+                                                            <% } %>
+                                                </span>
+
+                                            </div>
+
+                                        </th>
+
+                                        <th>
+                                            <div class="btn btn-light d-flex justify-content-between flex-row "
+                                                style="cursor:pointer;" onclick="sort(1)">
+                                                <div class="d-flex">Name</div>
+
+                                                <span class="d-flex" id="eid_column">
+                                                    <% if(col==1){ %>
+                                                        &#9650;
+                                                        <%} else { %>
+                                                            &#9651;
+                                                            <% } %>
+                                                </span>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="btn btn-light d-flex justify-content-between flex-row "
+                                                style="cursor:pointer;" onclick="sort(2)">
+                                                <div class="d-flex">Role</div>
+
+                                                <span class="d-flex" id="eid_column">
+                                                    <% if(col==2){ %>
+                                                        &#9650;
+                                                        <%} else { %>
+                                                            &#9651;
+                                                            <% } %>
+                                                </span>
+
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="btn btn-light d-flex justify-content-between flex-row "
+                                                style="cursor:pointer;" onclick="sort(3)">
+                                                <div class="d-flex">Salary</div>
+
+                                                <span class="d-flex" id="eid_column">
+                                                    <% if(col==3){ %>
+                                                        &#9650;
+                                                        <%} else { %>
+                                                            &#9651;
+                                                            <% } %>
+                                                </span>
+
+                                            </div>
+                                        </th>
+                                        <th>Update</th>
+                                    </tr>
+                                </thead>
+                                <% employees.forEach((e)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= e.eid %>
+                                        </td>
+                                        <td>
+                                            <%= e.ename %>
+                                        </td>
+                                        <td>
+                                            <%= e.role %>
+                                        </td>
+                                        <td>
+                                            <%= e.salary %>
+                                        </td>
+                                        <td>
+                                            <a class="nav-link" href='../employees/edit/:<%= e.eid %>'>
+                                                <span data-feather="edit"></span>Update
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    <% }) %>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+             
+                        <%- include('footer.html'); -%>
