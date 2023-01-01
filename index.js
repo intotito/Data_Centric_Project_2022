@@ -31,12 +31,12 @@ app.get('/', (req, res) => {
 
 
 
-// Handle HTTP GET request at '/employees'
+// Handle HTTP GET request at '/employees' with optional parameter 'select' for ordering the query result from MySQL
 app.get('/employees/:select?', (req, res) => {
     mysql.getEmployeesSQL(req)
         .then((data) => {
 
-            // render EJS file name 'employees.ejs' with specified parameter
+            // render EJS file name 'employees.ejs' with specified parameters
             res.render('employees', {employees: data.data, col: data.col});
         }).catch((error) => {
             res.send(error);

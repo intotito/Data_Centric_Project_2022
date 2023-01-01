@@ -3,11 +3,11 @@ const pMysql = require('promise-mysql');
 // Represents a MySQL connection, fromm which queries are run
 var connection;
 pMysql.createPool({
-    connectionLimit: 3,
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'proj2022'
+    connectionLimit: 3,// Maximum number of connections to be handled simultenously
+    host: 'localhost', // Host for the MySQL Server
+    user: 'root', // User name
+    password: '', // Password
+    database: 'proj2022' // Database name
 }).then(p => {
     connection = p;
 }).catch(e => {
